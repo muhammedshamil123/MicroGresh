@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "proto/auth-pb";
+
+service AuthService {
+  rpc EmailSignup (EmailSignupRequest) returns (EmailSignupResponse);
+  rpc EmailLogin (EmailLoginRequest) returns (EmailLoginResponse);
+}
+
+// Signup Request & Response
+message EmailSignupRequest {
+  string name = 1;
+  string email = 2;
+  string phone_number = 3;
+  string password = 4;
+  string confirm_password = 5;
+}
+
+message EmailSignupResponse {
+  string message = 1;
+  bool success = 2;
+}
+
+// Login Request & Response
+message EmailLoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message EmailLoginResponse {
+  string token = 1;
+  bool success = 2;
+  UserResponse user = 3; // ✅ User details after login
+}
+
+// User Response (Only for login)
+message UserResponse {
+  uint32 id = 1;
+  string name = 2;
+  string email = 3;
+  string phone_number = 4;
+  string picture = 5;
+  bool blocked = 6;
+}
