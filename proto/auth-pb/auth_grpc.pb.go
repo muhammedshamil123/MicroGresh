@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	AuthService_EmailSignup_FullMethodName = "/auth.AuthService/EmailSignup"
 	AuthService_EmailLogin_FullMethodName  = "/auth.AuthService/EmailLogin"
+	AuthService_AdminLogin_FullMethodName  = "/auth.AuthService/AdminLogin"
 )
 
 // AuthServiceClient is the client API for AuthService service.
@@ -29,6 +30,7 @@ const (
 type AuthServiceClient interface {
 	EmailSignup(ctx context.Context, in *EmailSignupRequest, opts ...grpc.CallOption) (*EmailSignupResponse, error)
 	EmailLogin(ctx context.Context, in *EmailLoginRequest, opts ...grpc.CallOption) (*EmailLoginResponse, error)
+	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
 }
 
 type authServiceClient struct {
@@ -59,12 +61,23 @@ func (c *authServiceClient) EmailLogin(ctx context.Context, in *EmailLoginReques
 	return out, nil
 }
 
+func (c *authServiceClient) AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AdminLoginResponse)
+	err := c.cc.Invoke(ctx, AuthService_AdminLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServiceServer is the server API for AuthService service.
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility.
 type AuthServiceServer interface {
 	EmailSignup(context.Context, *EmailSignupRequest) (*EmailSignupResponse, error)
 	EmailLogin(context.Context, *EmailLoginRequest) (*EmailLoginResponse, error)
+	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -80,6 +93,9 @@ func (UnimplementedAuthServiceServer) EmailSignup(context.Context, *EmailSignupR
 }
 func (UnimplementedAuthServiceServer) EmailLogin(context.Context, *EmailLoginRequest) (*EmailLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EmailLogin not implemented")
+}
+func (UnimplementedAuthServiceServer) AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
 func (UnimplementedAuthServiceServer) testEmbeddedByValue()                     {}
@@ -138,6 +154,24 @@ func _AuthService_EmailLogin_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthService_AdminLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).AdminLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_AdminLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).AdminLogin(ctx, req.(*AdminLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +186,10 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "EmailLogin",
 			Handler:    _AuthService_EmailLogin_Handler,
+		},
+		{
+			MethodName: "AdminLogin",
+			Handler:    _AuthService_AdminLogin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

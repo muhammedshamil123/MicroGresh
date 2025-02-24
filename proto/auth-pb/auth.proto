@@ -7,6 +7,19 @@ option go_package = "proto/auth-pb";
 service AuthService {
   rpc EmailSignup (EmailSignupRequest) returns (EmailSignupResponse);
   rpc EmailLogin (EmailLoginRequest) returns (EmailLoginResponse);
+  rpc AdminLogin (AdminLoginRequest) returns (AdminLoginResponse);
+}
+
+//Admin Login Request & Response
+
+message AdminLoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message AdminLoginResponse {
+    string message = 1;
+    bool success = 2; 
 }
 
 // Signup Request & Response
