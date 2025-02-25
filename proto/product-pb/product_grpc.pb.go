@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ProductService_CreateProduct_FullMethodName = "/auth.ProductService/CreateProduct"
-	ProductService_DeleteProduct_FullMethodName = "/auth.ProductService/DeleteProduct"
-	ProductService_EditProduct_FullMethodName   = "/auth.ProductService/EditProduct"
-	ProductService_ListProducts_FullMethodName  = "/auth.ProductService/ListProducts"
-	ProductService_GetProduct_FullMethodName    = "/auth.ProductService/GetProduct"
+	ProductService_CreateProduct_FullMethodName = "/product.ProductService/CreateProduct"
+	ProductService_DeleteProduct_FullMethodName = "/product.ProductService/DeleteProduct"
+	ProductService_EditProduct_FullMethodName   = "/product.ProductService/EditProduct"
+	ProductService_ListProducts_FullMethodName  = "/product.ProductService/ListProducts"
+	ProductService_GetProduct_FullMethodName    = "/product.ProductService/GetProduct"
 )
 
 // ProductServiceClient is the client API for ProductService service.
@@ -248,7 +248,7 @@ func _ProductService_GetProduct_Handler(srv interface{}, ctx context.Context, de
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProductService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "auth.ProductService",
+	ServiceName: "product.ProductService",
 	HandlerType: (*ProductServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
