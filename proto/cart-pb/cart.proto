@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "proto/cart-pb";
+
+// 🏗 Product Service Definition
+service ProductService {
+  rpc AddToCart (AddToCartRequest) returns (AddToCartResponse);
+  rpc RemoveFromCart (RemoveFromCartRequest) returns (RemoveFromCartResponse);
+  rpc ViewCart (ViewCartRequest) returns (ViewCartResponse);
+  rpc ClearCart (ClearCartRequest) returns (ClearCartResponse);
+}
+
+message Cart { 
+  uint32 id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  double offer_amount = 5;
+  uint32 stock_left = 6;
+  uint32 quantity = 7;
+}
+
+
+message AddToCartRequest {
+  uint32 product_id = 1;
+  uint32 user_id = 2;
+  uint32 quantity = 3;
+}
+
+message AddToCartResponse {
+  string message = 1;
+  bool success = 2;
+}
+
+
+message RemoveFromCartRequest {
+  uint32 user_id = 1;
+  uint32 product_id = 2;
+}
+
+message RemoveFromCartResponse {
+  string message = 1;
+  bool success = 2;
+}
+
+
+message ViewCartRequest {
+  uint32 id = 1;
+}
+
+message ViewCartResponse {
+  string message = 1;
+  bool success = 2;
+  repeated Cart carts_items = 3;
+}
+
+message ClearCartRequest {
+    uint32 id = 1;
+}
+
+message ClearCartResponse {
+  string message = 1;
+  bool success = 2;
+}
