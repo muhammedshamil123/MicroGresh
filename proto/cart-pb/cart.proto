@@ -4,8 +4,7 @@ package auth;
 
 option go_package = "proto/cart-pb";
 
-// 🏗 Product Service Definition
-service ProductService {
+service CartService {
   rpc AddToCart (AddToCartRequest) returns (AddToCartResponse);
   rpc RemoveFromCart (RemoveFromCartRequest) returns (RemoveFromCartResponse);
   rpc ViewCart (ViewCartRequest) returns (ViewCartResponse);
