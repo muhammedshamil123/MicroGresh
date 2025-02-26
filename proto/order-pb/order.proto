@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package order;
+
+option go_package = "proto/order-pb";
+
+service OrderService {
+  rpc CreateOrder (CreateOrderRequest) returns (CreateOrderResponse);
+  rpc UserViewOrder (UserViewOrderRequest) returns (UserViewOrderResponse);
+  rpc GetOrders (GetOrdersRequest) returns (GetOrdersResponse);
+  rpc CancelOrder (CancelOrderRequest) returns (CancelOrderResponse);
+}
+
+message OrderItem {
+  uint32 product_id = 1;
+  string name = 2;
+  uint32 quantity = 3;
+  double amount = 4;
+  string order_status = 5;
+}
+
+message Order {
+  uint32 order_id = 1;
+  uint32 user_id = 2;
+  uint32 item_count = 3;
+  double total_amount = 4;
+  double final_amount = 5;
+  string payment_method = 6;
+  string payment_status = 7;
+  string OrderStatus = 8;
+  double product_offer_amount = 9;
+  uint32 delivery_charge = 10;
+  repeated OrderItem order_items = 11;
+}
+
+message CreateOrderRequest {
+  uint32 user_id = 1;
+}
+
+message CreateOrderResponse {
+  string message = 1;
+  bool success = 2;
+}
+
+message UserViewOrderRequest {
+  uint32 user_id = 1;
+}
+
+message UserViewOrderResponse {
+  string message = 1;
+  bool success = 2;
+  repeated Order order = 3;
+}
+
+
+message GetOrdersRequest {}
+
+message GetOrdersResponse {
+  string message = 1;
+  bool success = 2;
+  repeated Order order = 3;
+}
+
+message CancelOrderRequest {
+  uint32 user_id = 1;
+  uint32 order_id = 2;
+}
+
+message CancelOrderResponse {
+  string message = 1;
+  bool success = 2;
+}
